@@ -88,7 +88,7 @@ with gr.Blocks(
     # Chat interface
     chatbot = gr.Chatbot(
         height=600,
-        show_label=False,
+        show_label=False,#
         
     )
     
