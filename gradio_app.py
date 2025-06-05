@@ -70,7 +70,7 @@ def chat_wrapper(message, history):
             response = str(response)
         if history is None:
             history = []   
-            
+
         history.append([message, response])
         return history, ""
     finally:
@@ -89,7 +89,7 @@ with gr.Blocks(
     chatbot = gr.Chatbot(
         height=600,
         show_label=False,
-        placeholder="Hi! I'm Task Maistro. I can help you manage your tasks and todos. What would you like to do today?"
+        
     )
     
     # Input row
