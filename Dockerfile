@@ -1,20 +1,20 @@
+# Imagen base con Python
 FROM python:3.11-slim
 
+# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Instalar dependencias con versiones específicas compatibles
-RUN pip install --no-cache-dir \
-    gradio==4.19.2 \
-    langgraph_sdk==0.1.34 \
-    langchain_core==0.3.15 \
-    httpx==0.25.2 \
-    pydantic==1.10.13
+# Copiar solo requirements primero para aprovechar la caché de Docker
+COPY requirements.txt .
 
-# Copiar archivo de la aplicación
-COPY gradio_app.py .
+# Instalar dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Exponer puerto
+# Copiar el resto del código
+COPY . .
+
+# Exponer el puerto (Railway establece PORT como variable de entorno)
 EXPOSE 8080
 
-# Comando de inicio
+# Comando para ejecutar la app
 CMD ["python", "gradio_app.py"]

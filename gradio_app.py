@@ -56,25 +56,16 @@ class TaskMaistroInterface:
 # Inicializar la interfaz
 task_interface = TaskMaistroInterface()
 
-# Wrapper síncrono para Gradio
-def chat_wrapper(message, history):
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    try:
-        response = loop.run_until_complete(
-            task_interface.chat_with_agent(message)
-        )
 
-        # Asegurar que response sea siempre string
-        if not isinstance(response, str):
-            response = str(response)
-        if history is None:
-            history = []   
-
-        history.append([message, response])
-        return history, ""
-    finally:
-        loop.close()
+# Wrapper asíncrono para Gradio
+async def chat_wrapper(message, history):
+    response = await task_interface.chat_with_agent(message)
+    if not isinstance(response, str):
+        response = str(response)
+    if history is None:
+        history = []
+    history.append([message, response])
+    return history, ""
 
 # Crear la interfaz Gradio
 with gr.Blocks(
