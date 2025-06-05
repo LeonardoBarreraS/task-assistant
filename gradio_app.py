@@ -109,8 +109,18 @@ with gr.Blocks(
     )
 
 if __name__ == "__main__":
+    print("Starting Task Maistro Gradio Interface...")
+    print(f"Port: {os.environ.get('PORT', 7860)}")
+    print(f"API URL: {os.environ.get('LANGGRAPH_API_URL', 'Not set')}")
+    
+    # Configuración Railway-específica
+    port = int(os.environ.get("PORT", 7860))
+    
     demo.launch(
         server_name="0.0.0.0",
-        server_port=int(os.environ.get("PORT", 7860)),
-        share=False
+        server_port=port,
+        share=False,
+        enable_queue=False,
+        show_error=True,
+        quiet=False
     )
