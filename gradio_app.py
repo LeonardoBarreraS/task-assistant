@@ -64,6 +64,13 @@ def chat_wrapper(message, history):
         response = loop.run_until_complete(
             task_interface.chat_with_agent(message)
         )
+
+        # Asegurar que response sea siempre string
+        if not isinstance(response, str):
+            response = str(response)
+        if history is None:
+            history = []   
+            
         history.append([message, response])
         return history, ""
     finally:
@@ -110,15 +117,15 @@ with gr.Blocks(
 
 if __name__ == "__main__":
     print("Starting Task Maistro Gradio Interface...")
-    print(f"Port: {os.environ.get('PORT', 7860)}")
+    print(f"Port: {os.environ.get('PORT', 8080)}")
     print(f"API URL: {os.environ.get('LANGGRAPH_API_URL', 'Not set')}")
     
     # Configuración Railway-específica
-    port = int(os.environ.get("PORT", 7860))
+    port = int(os.environ.get("PORT", 8080))
     
     demo.launch(
         server_name="0.0.0.0",
         server_port=port,
-        share=False,
+        share=True,
         show_error=True,
     )
